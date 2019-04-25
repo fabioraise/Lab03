@@ -19,7 +19,7 @@ public class Dictionary {
 		
 		// Genera una nuova ArrayList ogni volta che viene cambiata lingua, così che 
 		//	la vecchia lista venga cancellata
-		dizionario = new ArrayList<String>();
+		dizionario = new LinkedList<String>();
 		this.language = language;
 		
 		try {
@@ -63,6 +63,65 @@ public class Dictionary {
 		}
 
 		return parole;
+	}
+	
+	
+	public List<RichWord> spellCheckTextLinear(List<String> inputTextList) {
+		
+		List<RichWord> parole = new ArrayList<RichWord>();
+		
+		for(String str : inputTextList) {
+			
+			RichWord rw = new RichWord(str);
+			rw.setCorrect(false);
+			for(String currentWord : dizionario) {
+				if(currentWord.equals(str.toLowerCase())) {
+					rw.setCorrect(true);
+					parole.add(rw);
+					break;
+				}
+			}
+			parole.add(rw);
+			
+		}
+		
+		return parole;
+		
+	}
+	
+	
+	public List<RichWord> spellCheckTextDichotomic(List<String> inputTextList) {
+		
+		List<RichWord> parole = new ArrayList<RichWord>();
+		
+		for(String str : inputTextList) {
+			
+			int inizio = 0;
+			int fine = dizionario.size();
+			
+			RichWord rw = new RichWord(str);
+			rw.setCorrect(false);
+			while(inizio != fine) {
+				int medio = (inizio + fine)/2;
+				
+				if(str.compareToIgnoreCase(dizionario.get(medio)) == 0) {
+					rw.setCorrect(true);
+					break;
+				}
+				else if(str.compareToIgnoreCase(dizionario.get(medio)) < 0) {
+					fine = medio;
+				}
+				else if(str.compareToIgnoreCase(dizionario.get(medio)) > 0) {
+					inizio = medio + 1;
+				}
+				
+			}
+			
+			parole.add(rw);
+		}
+		
+		return parole;
+		
 	}
 
 }

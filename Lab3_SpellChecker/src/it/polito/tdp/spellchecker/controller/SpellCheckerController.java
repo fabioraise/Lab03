@@ -101,7 +101,7 @@ public class SpellCheckerController {
     		inputTextList.add(st.nextToken());
     	
     	double t1 = System.nanoTime();
-    	List<RichWord> outputWords = dizionario.spellCheckText(inputTextList);
+    	List<RichWord> outputWords = dizionario.spellCheckTextDichotomic(inputTextList);
     	double t2 = System.nanoTime();
     	
     	int errors = 0;
